@@ -21,13 +21,22 @@ class _HomePageState extends State<HomePage> {
       if (event is HomeLoading) {
         if (event.isLoading) {
           showDialog(
-              context: context,
-              builder: ((context) {
-                return const AlertDialog(
-                  content: SizedBox(
-                      height: 100, width: 100, child: Center(child: CircularProgressIndicator())),
-                );
-              }));
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => const AlertDialog(
+              content: SizedBox(
+                  height: 100,
+                  child: Center(
+                      child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      CircularProgressIndicator(),
+                      SizedBox(height: 10),
+                      Text('Aguarde...')
+                    ],
+                  ))),
+            ),
+          );
         } else {
           Future.delayed(const Duration(seconds: 3), () {
             Navigator.pop(context);
@@ -42,55 +51,53 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Usuários')),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          FloatingActionButton(
-            onPressed: () async {
-              await widget.homeCubit.salvarUsuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
-                Profissao(nome: 'Desenvolvedor'),
-                Profissao(nome: 'Bancário'),
-              ]));
-            },
-            child: const Icon(Icons.add),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return BlocBuilder<HomeCubit, HomeState>(
+      bloc: widget.homeCubit,
+      builder: (context, state) => Scaffold(
+        appBar: AppBar(title: Text('Usuários: ${widget.homeCubit.state.usuarios.length}')),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BlocBuilder<HomeCubit, HomeState>(
-              bloc: widget.homeCubit,
-              builder: (context, state) {
-                return Expanded(
-                  child: ListView.builder(
-                      itemCount: state.usuarios.length,
-                      itemBuilder: ((context, index) {
-                        return ListTile(
-                          key: Key(widget.homeCubit.state.usuarios[index].id.toString()),
-                          title: Text(
-                              'Nome: ${state.usuarios[index].nome} - ${state.usuarios[index].id} '),
-                          subtitle: Text(state.usuarios[index].profissoes.first.nome),
-                          trailing: IconButton(
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ),
-                            onPressed: () async {
-                              await widget.homeCubit
-                                  .deletarUsuario(widget.homeCubit.state.usuarios[index]);
-                            },
-                          ),
-                        );
-                      })),
-                );
+            FloatingActionButton(
+              onPressed: () async {
+                await widget.homeCubit.salvarUsuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
+                  Profissao(nome: 'Desenvolvedor'),
+                  Profissao(nome: 'Bancário'),
+                ]));
               },
+              child: const Icon(Icons.add),
             ),
           ],
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: ListView.builder(
+                    itemCount: state.usuarios.length,
+                    itemBuilder: ((context, index) {
+                      return ListTile(
+                        key: Key(widget.homeCubit.state.usuarios[index].id.toString()),
+                        title: Text(
+                            'Nome: ${state.usuarios[index].nome} - ${state.usuarios[index].id} '),
+                        subtitle: Text(state.usuarios[index].profissoes.first.nome),
+                        trailing: IconButton(
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () async {
+                            await widget.homeCubit
+                                .deletarUsuario(widget.homeCubit.state.usuarios[index]);
+                          },
+                        ),
+                      );
+                    })),
+              ),
+            ],
+          ),
         ),
       ),
     );
