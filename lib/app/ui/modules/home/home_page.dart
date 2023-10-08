@@ -56,19 +56,14 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) => Scaffold(
         appBar: AppBar(title: Text('Usuários: ${widget.homeCubit.state.usuarios.length}')),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            FloatingActionButton(
-              onPressed: () async {
-                await widget.homeCubit.salvarUsuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
-                  Profissao(nome: 'Desenvolvedor'),
-                  Profissao(nome: 'Bancário'),
-                ]));
-              },
-              child: const Icon(Icons.add),
-            ),
-          ],
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            await widget.homeCubit.salvarUsuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
+              Profissao(nome: 'Desenvolvedor'),
+              Profissao(nome: 'Bancário'),
+            ]));
+          },
+          child: const Icon(Icons.add),
         ),
         body: Center(
           child: Column(
