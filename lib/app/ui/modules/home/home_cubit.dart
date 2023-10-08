@@ -12,24 +12,28 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeLoading(isLoading: true));
     final usuarios = await usuarioRepository.buscarUsuarios();
     emit(HomeLoading(isLoading: false));
+
     emit(HomeLoaded(usuarios: usuarios));
   }
 
-  Future<void> salvarusuario(Usuario usuario) async {
+  Future<void> salvarUsuario(Usuario usuario) async {
     emit(HomeLoading(isLoading: true));
     await usuarioRepository.salvarUsuario(usuario);
+    emit(HomeLoading(isLoading: false));
     buscarUsuarios();
   }
 
   Future<void> atualizarUsuario(Usuario usuario) async {
     emit(HomeLoading(isLoading: true));
     await usuarioRepository.atualizarUsuario(usuario);
+    emit(HomeLoading(isLoading: false));
     buscarUsuarios();
   }
 
-  Future<void> deletarusuario(Usuario usuario) async {
+  Future<void> deletarUsuario(Usuario usuario) async {
     emit(HomeLoading(isLoading: true));
     await usuarioRepository.deletarUsuario(usuario);
+    emit(HomeLoading(isLoading: false));
     buscarUsuarios();
   }
 }

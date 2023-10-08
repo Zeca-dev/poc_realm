@@ -17,7 +17,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    widget.homeCubit.buscarUsuarios().then((value) => print(widget.homeCubit.state));
+    widget.homeCubit.stream.listen((event) {
+      if (event is HomeLoading) {
+        if (event.isLoading) {
+          showDialog(
+              context: context,
+              builder: ((context) {
+                return const AlertDialog(
+                  content: SizedBox(
+                      height: 100, width: 100, child: Center(child: CircularProgressIndicator())),
+                );
+              }));
+        } else {
+          Future.delayed(const Duration(seconds: 3), () {
+            Navigator.pop(context);
+          });
+        }
+      }
+    });
+
+    widget.homeCubit.buscarUsuarios();
     super.initState();
   }
 
@@ -31,7 +50,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           FloatingActionButton(
             onPressed: () async {
-              await widget.homeCubit.salvarusuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
+              await widget.homeCubit.salvarUsuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
                 Profissao(nome: 'Desenvolvedor'),
                 Profissao(nome: 'Bancário'),
               ]));
@@ -63,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onPressed: () async {
                               await widget.homeCubit
-                                  .deletarusuario(widget.homeCubit.state.usuarios[index]);
+                                  .deletarUsuario(widget.homeCubit.state.usuarios[index]);
                             },
                           ),
                         );
