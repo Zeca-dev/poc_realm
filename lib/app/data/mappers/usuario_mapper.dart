@@ -1,11 +1,12 @@
 import 'package:dson_adapter/dson_adapter.dart';
-import 'package:poc_realm/app/data/adapters/profissao_adapter.dart';
-import 'package:poc_realm/app/data/realm_database/models/usuario_model.dart';
+import 'package:poc_realm/app/data/mappers/profissao_mapper.dart';
 import 'package:poc_realm/app/domain/entities/profissao.dart';
 import 'package:poc_realm/app/domain/entities/usuario.dart';
 import 'package:realm/realm.dart';
 
-extension UsuarioAdapter on Usuario {
+import '../models/usuario_model.dart';
+
+extension UsuarioMapper on Usuario {
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,

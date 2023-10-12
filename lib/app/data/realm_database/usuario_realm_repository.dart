@@ -1,10 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:poc_realm/app/data/adapters/usuario_adapter.dart';
-import 'package:poc_realm/app/data/realm_database/models/usuario_model.dart';
+import 'package:poc_realm/app/data/mappers/usuario_mapper.dart';
 import 'package:poc_realm/app/domain/entities/usuario.dart';
 import 'package:poc_realm/app/domain/repositories/usuario_repository_interface.dart';
 import 'package:realm/realm.dart';
+
+import '../models/usuario_model.dart';
 
 class UsuarioRealmRepository implements UsuarioRepository {
   final Realm realm;

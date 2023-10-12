@@ -2,9 +2,9 @@ import 'package:dson_adapter/dson_adapter.dart';
 import 'package:poc_realm/app/domain/entities/profissao.dart';
 import 'package:realm/realm.dart';
 
-import '../realm_database/models/profissao_model.dart';
+import '../models/profissao_model.dart';
 
-extension ProfissaoAdapter on Profissao {
+extension ProfissaoMapper on Profissao {
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,

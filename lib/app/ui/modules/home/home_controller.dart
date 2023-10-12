@@ -3,10 +3,10 @@ import 'package:poc_realm/app/domain/entities/usuario.dart';
 import 'package:poc_realm/app/domain/repositories/usuario_repository_interface.dart';
 import 'package:poc_realm/app/domain/states/home_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class HomeController extends Cubit<HomeState> {
   final UsuarioRepository usuarioRepository;
 
-  HomeCubit(this.usuarioRepository) : super(HomeInitial());
+  HomeController(this.usuarioRepository) : super(HomeInitial());
 
   Future<void> buscarUsuarios() async {
     emit(HomeLoading(isLoading: true));

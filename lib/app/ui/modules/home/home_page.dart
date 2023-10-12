@@ -4,11 +4,11 @@ import 'package:poc_realm/app/domain/entities/profissao.dart';
 import 'package:poc_realm/app/domain/entities/usuario.dart';
 import 'package:poc_realm/app/domain/states/home_state.dart';
 
-import 'home_cubit.dart';
+import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
-  final HomeCubit homeCubit;
-  const HomePage({super.key, required this.homeCubit});
+  final HomeController homeController;
+  const HomePage({super.key, required this.homeController});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    widget.homeCubit.stream.listen((event) {
+    widget.homeController.stream.listen((event) {
       if (event is HomeLoading) {
         if (event.isLoading) {
           showDialog(
@@ -38,27 +38,27 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          Future.delayed(const Duration(seconds: 3), () {
+          Future.delayed(const Duration(seconds: 1), () {
             Navigator.pop(context);
           });
         }
       }
     });
 
-    widget.homeCubit.buscarUsuarios();
+    widget.homeController.buscarUsuarios();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      bloc: widget.homeCubit,
+    return BlocBuilder<HomeController, HomeState>(
+      bloc: widget.homeController,
       builder: (context, state) => Scaffold(
-        appBar: AppBar(title: Text('Usuários: ${widget.homeCubit.state.usuarios.length}')),
+        appBar: AppBar(title: Text('Usuários: ${widget.homeController.state.usuarios.length}')),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            await widget.homeCubit.salvarUsuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
+            await widget.homeController.salvarUsuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
               Profissao(nome: 'Desenvolvedor'),
               Profissao(nome: 'Bancário'),
             ]));
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                     itemCount: state.usuarios.length,
                     itemBuilder: ((context, index) {
                       return ListTile(
-                        key: Key(widget.homeCubit.state.usuarios[index].id.toString()),
+                        key: Key(widget.homeController.state.usuarios[index].id.toString()),
                         title: Text(
                             'Nome: ${state.usuarios[index].nome} - ${state.usuarios[index].id} '),
                         subtitle: Text(state.usuarios[index].profissoes.first.nome),
@@ -84,8 +84,8 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.red,
                           ),
                           onPressed: () async {
-                            await widget.homeCubit
-                                .deletarUsuario(widget.homeCubit.state.usuarios[index]);
+                            await widget.homeController
+                                .deletarUsuario(widget.homeController.state.usuarios[index]);
                           },
                         ),
                       );
