@@ -20,9 +20,8 @@ void main() {
 
       final usuario = UsuarioMapper.fromJson(json);
 
-      print('$usuario \n');
-
       expect(usuario, isA<Usuario>());
+      print('$usuario \n');
     });
 
     test('Deve retornar um Json a partir de um Usuario', () {
@@ -36,9 +35,8 @@ void main() {
 
       final usuarioJson = usuario.toJson();
 
-      print('$usuarioJson \n');
-
       expect(usuarioJson, isA<Map<String, dynamic>>());
+      print('$usuarioJson \n');
     });
   });
 }
