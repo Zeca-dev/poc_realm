@@ -81,7 +81,14 @@ class _HomePageState extends State<HomePage> {
                       return ListTile(
                         key: Key(widget.homeController.state.usuarios[index].id.toString()),
                         title: Text('Nome: ${state.usuarios[index].nome} - ${state.usuarios[index].id} '),
-                        subtitle: Text(state.usuarios[index].profissoes.first.nome),
+                        subtitle: Column(
+                          children: [
+                            Text(state.usuarios[index].profissoes.first.nome),
+                            Text(state.usuarios[index].estadoCivil.nome),
+                            Text(state.usuarios[index].numeros.toString()),
+                            const Divider(),
+                          ],
+                        ),
                         trailing: IconButton(
                           icon: const Icon(
                             Icons.delete,
