@@ -6,6 +6,7 @@ part of 'profissao_model.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class ProfissaoModel extends $ProfissaoModel
     with RealmEntity, RealmObjectBase, RealmObject {
   ProfissaoModel(

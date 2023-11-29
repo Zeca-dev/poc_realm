@@ -6,17 +6,23 @@ part of 'usuario_model.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class UsuarioModel extends $UsuarioModel
     with RealmEntity, RealmObjectBase, RealmObject {
   UsuarioModel(
     String id,
     String nome,
-    int idade, {
+    int idade,
+    String estadoCivil, {
+    Iterable<int> numeros = const [],
     Iterable<ProfissaoModel> profissoes = const [],
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'nome', nome);
     RealmObjectBase.set(this, 'idade', idade);
+    RealmObjectBase.set(this, 'estadoCivil', estadoCivil);
+    RealmObjectBase.set<RealmList<int>>(
+        this, 'numeros', RealmList<int>(numeros));
     RealmObjectBase.set<RealmList<ProfissaoModel>>(
         this, 'profissoes', RealmList<ProfissaoModel>(profissoes));
   }
@@ -37,6 +43,20 @@ class UsuarioModel extends $UsuarioModel
   int get idade => RealmObjectBase.get<int>(this, 'idade') as int;
   @override
   set idade(int value) => RealmObjectBase.set(this, 'idade', value);
+
+  @override
+  RealmList<int> get numeros =>
+      RealmObjectBase.get<int>(this, 'numeros') as RealmList<int>;
+  @override
+  set numeros(covariant RealmList<int> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  String get estadoCivil =>
+      RealmObjectBase.get<String>(this, 'estadoCivil') as String;
+  @override
+  set estadoCivil(String value) =>
+      RealmObjectBase.set(this, 'estadoCivil', value);
 
   @override
   RealmList<ProfissaoModel> get profissoes =>
@@ -62,6 +82,9 @@ class UsuarioModel extends $UsuarioModel
       SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('nome', RealmPropertyType.string),
       SchemaProperty('idade', RealmPropertyType.int),
+      SchemaProperty('numeros', RealmPropertyType.int,
+          collectionType: RealmCollectionType.list),
+      SchemaProperty('estadoCivil', RealmPropertyType.string),
       SchemaProperty('profissoes', RealmPropertyType.object,
           linkTarget: 'ProfissaoModel',
           collectionType: RealmCollectionType.list),

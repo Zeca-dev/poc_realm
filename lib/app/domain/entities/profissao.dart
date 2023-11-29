@@ -18,4 +18,7 @@ class Profissao {
       nome: nome ?? this.nome,
     );
   }
+
+  @override
+  String toString() => 'Profissao(id: $id, nome: $nome)';
 }

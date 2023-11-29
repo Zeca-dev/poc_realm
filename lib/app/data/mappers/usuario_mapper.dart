@@ -12,31 +12,43 @@ extension UsuarioMapper on Usuario {
       'id': id,
       'nome': nome,
       'idade': idade,
+      'estadoCivil': estadoCivil,
       'profissoes': profissoes,
     };
   }
 
-  Usuario fromJson(Map<String, dynamic> json) {
+  static Usuario fromJson(Map<String, dynamic> json) {
     const dson = DSON();
 
     return dson.fromJson(
       json,
+      Usuario.new,
       inner: {
         'profissoes': ListParam<Profissao>(Profissao.new),
       },
-      Usuario.new,
+      resolvers: [
+        //Resolver para o estado civil
+        (key, value) => (key == 'estadoCivil' && value != null) ? EstadoCivil.getValue(value) : value,
+        //Resolver para a lista de int
+        (key, value) => (key == 'numeros' && value != null) ? value as List<int> : value
+      ],
     );
   }
 
   UsuarioModel toModel() {
-    return UsuarioModel(id ?? Uuid.v1().toString(), nome, idade,
-        profissoes: profissoes.map((e) => e.toModel()));
+    return UsuarioModel(id ?? Uuid.v1().toString(), nome, idade, estadoCivil.nome,
+        numeros: numeros, profissoes: profissoes.map((e) => e.toModel()));
   }
 }
 
 extension UsuarioModelAdapter on UsuarioModel {
   Usuario toDomain() {
     return Usuario(
-        id: id, nome: nome, idade: idade, profissoes: profissoes.map((e) => e.toDomain()).toList());
+        id: id,
+        nome: nome,
+        idade: idade,
+        numeros: numeros,
+        estadoCivil: EstadoCivil.getValue(estadoCivil),
+        profissoes: profissoes.map((e) => e.toDomain()).toList());
   }
 }

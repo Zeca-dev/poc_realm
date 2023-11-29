@@ -58,10 +58,15 @@ class _HomePageState extends State<HomePage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            await widget.homeController.salvarUsuario(Usuario(nome: 'Zeca', idade: 41, profissoes: [
-              Profissao(nome: 'Desenvolvedor'),
-              Profissao(nome: 'Bancário'),
-            ]));
+            await widget.homeController.salvarUsuario(Usuario(
+                nome: 'Zeca',
+                idade: 41,
+                numeros: [1, 2, 3],
+                estadoCivil: EstadoCivil.solteiro,
+                profissoes: [
+                  Profissao(nome: 'Desenvolvedor'),
+                  Profissao(nome: 'Bancário'),
+                ]));
           },
           child: const Icon(Icons.add),
         ),
@@ -75,8 +80,7 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: ((context, index) {
                       return ListTile(
                         key: Key(widget.homeController.state.usuarios[index].id.toString()),
-                        title: Text(
-                            'Nome: ${state.usuarios[index].nome} - ${state.usuarios[index].id} '),
+                        title: Text('Nome: ${state.usuarios[index].nome} - ${state.usuarios[index].id} '),
                         subtitle: Text(state.usuarios[index].profissoes.first.nome),
                         trailing: IconButton(
                           icon: const Icon(
@@ -84,8 +88,7 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.red,
                           ),
                           onPressed: () async {
-                            await widget.homeController
-                                .deletarUsuario(widget.homeController.state.usuarios[index]);
+                            await widget.homeController.deletarUsuario(widget.homeController.state.usuarios[index]);
                           },
                         ),
                       );
