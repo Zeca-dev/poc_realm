@@ -12,7 +12,7 @@ extension ProfissaoMapper on Profissao {
     };
   }
 
-  Profissao fromJson(Map<String, dynamic> json) {
+  static Profissao fromJson(Map<String, dynamic> json) {
     const dson = DSON();
 
     return dson.fromJson<Profissao>(json, Profissao.new);

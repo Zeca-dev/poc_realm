@@ -12,6 +12,7 @@ extension UsuarioMapper on Usuario {
       'id': id,
       'nome': nome,
       'idade': idade,
+      'numeros': numeros,
       'estadoCivil': estadoCivil,
       'profissoes': profissoes,
     };
