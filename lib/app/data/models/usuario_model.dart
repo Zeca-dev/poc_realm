@@ -2,7 +2,7 @@ import 'package:realm/realm.dart';
 
 import 'profissao_model.dart';
 
-part 'usuario_model.g.dart';
+part 'usuario_model.realm.dart';
 
 @RealmModel()
 class $UsuarioModel {

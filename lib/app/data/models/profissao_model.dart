@@ -1,8 +1,6 @@
-// part of 'usuario_model.dart';
-
 import 'package:realm/realm.dart';
 
-part 'profissao_model.g.dart';
+part 'profissao_model.realm.dart';
 
 @RealmModel()
 class $ProfissaoModel {
